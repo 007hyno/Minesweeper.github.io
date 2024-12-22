@@ -1,7 +1,7 @@
 class Minesweeper {
     constructor() {
         this.difficulties = {
-            beginner: { rows: 3, cols: 3, mines: 1 },
+            beginner: { rows: 9, cols: 9, mines: 10 },
             intermediate: { rows: 16, cols: 16, mines: 40 },
             expert: { rows: 16, cols: 30, mines: 99 }
         };
@@ -13,6 +13,8 @@ class Minesweeper {
         this.mineCells;
         this.safeCells;
         this.revelCount = 0;
+        this.level = 'beginner';
+        this.restartGame = this.restartGame.bind(this);
     }
 
     setupDifficultyButtons() {
@@ -24,6 +26,16 @@ class Minesweeper {
                 this.hideWinner();
             });
         });
+        const button = document.querySelector('.restart-button');
+        button.addEventListener('click',(e)=>{
+            this.restartGame();
+        })
+        
+    }
+    restartGame() {        
+        this.hideWinner();
+                // Restart with current difficulty
+                this.setDifficulty(this.level)
     }
 
     setDifficulty(level) {
@@ -35,6 +47,8 @@ class Minesweeper {
         this.isGamesOver = false;
         this.safeCells = (this.rows * this.cols) - (this.mines);
         this.createGrid();
+        this.revelCount = 0;
+        this.level = level;
 
     }
 
@@ -119,6 +133,7 @@ class Minesweeper {
 
         return safeZone;
     }
+
 
     calculateNeighborCounts() {
         for (let row = 0; row < this.rows; row++) {
