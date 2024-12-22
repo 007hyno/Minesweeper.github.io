@@ -1,7 +1,7 @@
 class Minesweeper {
     constructor() {
         this.difficulties = {
-            beginner: { rows: 9, cols: 9, mines: 10 },
+            beginner: { rows: 3, cols: 3, mines: 1 },
             intermediate: { rows: 16, cols: 16, mines: 40 },
             expert: { rows: 16, cols: 30, mines: 99 }
         };
@@ -10,6 +10,9 @@ class Minesweeper {
         this.isGamesOver = false;
         this.setDifficulty('beginner');
         this.setupDifficultyButtons();
+        this.mineCells;
+        this.safeCells;
+        this.revelCount = 0;
     }
 
     setupDifficultyButtons() {
@@ -18,6 +21,7 @@ class Minesweeper {
             button.addEventListener('click', (e) => {
                 const difficulty = e.target.dataset.difficulty;
                 this.setDifficulty(difficulty);
+                this.hideWinner();
             });
         });
     }
@@ -29,7 +33,9 @@ class Minesweeper {
         this.mines = config.mines;
         this.isFirstClick = true;
         this.isGamesOver = false;
+        this.safeCells = (this.rows * this.cols) - (this.mines);
         this.createGrid();
+
     }
 
     createGrid() {
@@ -169,6 +175,22 @@ class Minesweeper {
             this.revealNeighborCell(row, col)
         }
     }
+    isWin(){
+        console.log('winner',this.revelCount,this.safeCells);
+        if(this.revelCount == this.safeCells){
+            this.showWinner();
+        }
+        console.log('not win');
+    }
+    showWinner() {
+        document.getElementById('overlay').style.display = 'block';
+        document.getElementById('winnerContainer').style.display = 'block';
+    }
+
+    hideWinner() {
+        document.getElementById('overlay').style.display = 'none';
+        document.getElementById('winnerContainer').style.display = 'none';
+    }
 
     revealAllMines() {
         for (let row = 0; row < this.rows; row++) {
@@ -197,6 +219,8 @@ class Minesweeper {
         if (neighborMinesCount === 3)
             cell.classList.add('number3')
         this.grid[row][col].isRevealed = true;
+        this.revelCount++;
+        this.isWin();
         console.log(`This cell has ${neighborMinesCount} neighboring mines at ${row}, ${col}`);
     }
 
@@ -213,6 +237,8 @@ class Minesweeper {
         const cell = document.querySelector(`[data-row="${currentRow}"][data-col="${currentCol}"]`);
         cell.classList.add('revealed');
         this.grid[currentRow][currentCol].isRevealed = true;
+        this.revelCount++;
+        this.isWin();
         console.log(`No neighboring mines at ${currentRow}, ${currentCol}`);
 
         for (let i = -1; i <= 1; i++) {
