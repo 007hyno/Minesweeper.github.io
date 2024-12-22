@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+*{
+    font-family: "VT323", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.main{
+    display: grid;
+    place-items: center;
+}
+.grid-container {
+    display: inline-block;
+    border: 4px solid #666;
+    border-radius: 3px;
+
+}
+
+.row {
+    display: flex;
+}
+
+.cell {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #999;
+    /* outline-style: ridge; */
+    background: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 24px;
+    user-select: none;
+    border-radius: 2px;
+}
+
+.cell.revealed {
+    border: 1px solid #999;
+    background: #e8e6e6;
+}
+
+.cell.mine {
+    border: 1px solid #999;
+    background: #2b2a2aa6;
+
+}
+.grid-image {
+    width: 25px;
+    height: 25px;
+  }
+.cell.number1 {
+    color: #2923df;
+}
+
+.cell.number2 {
+    color: #015f11;
+}
+
+.cell.number3 {
+    color: #ff4000;
+}
+
+.cell.number4 {
+    color: #ff1e00;
+}
+
+.cell:hover {
+    /* background: #ff000024; */
+}
+
+.cell.revealed:hover {
+    /* background: #ff030389; */
+}
+
+.controls {
+    margin-bottom: 20px;
+}
