@@ -227,11 +227,11 @@ class Minesweeper {
         e.preventDefault();
         if (this.isGamesOver)
             return;
-        const cell = e.target;
+        const cell = e.currentTarget;
         const row = parseInt(cell.dataset.row);
         const col = parseInt(cell.dataset.col);
         // Flagging logic to be implemented
-        if (!this.grid[row][col].isFlagged) {
+        if (!this.grid[row][col].isFlagged && !this.grid[row][col].isRevealed) {
             // cell.textContent = '⛳'
             cell.innerHTML = '<img src="./flag.png" class="grid-image">';
             // const image = document.createElement('img');
@@ -239,8 +239,9 @@ class Minesweeper {
             // image.alt = 'Your image alt text';
             // cell.appendChild(image);
             cell.classList.add('flag');
-        } else {
-            cell.textContent = ''
+        } else if (!this.grid[row][col].isRevealed) {
+            console.log('else');
+            cell.innerHTML = ''
             cell.classList.remove('flag');
         }
         this.grid[row][col].isFlagged = !this.grid[row][col].isFlagged
